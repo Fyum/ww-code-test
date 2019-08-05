@@ -24,8 +24,27 @@ const bandsOnDate = (date) => {
   )(allBands);
 };
 
-// TODO this should do more than return the number it's given
-const slice = R.curry((floor, ceiling, num) => num);
+const slice = R.curry((floor, ceiling, num) => {
+  if (num === RD.ZERO) return RD.ZERO;
+  if (num === ceiling) return RD.subtract(num, floor);
+  if (num === floor) return RD.ZERO;
+  if (RD.lt(num, floor)) return RD.ZERO;
+
+  if (floor !== RD.ZERO) {
+    if (RD.gt(num, ceiling)) return RD.subtract(ceiling, floor);
+    if (num === ceiling) return RD.subtract(num, ceiling);
+
+    return RD.subtract(num, floor);
+  }
+
+  if (floor === RD.ZERO) {
+    if (RD.gt(num, ceiling)) return RD.subtract(ceiling, floor);
+
+    return RD.subtract(num, floor);
+  }
+
+  throw new Error(`Values for floor (${floor}), ceiling (${ceiling}) and num (${num}) resulted in an unspecified calculation`);
+});
 
 const calcForBand = R.curry(
   (income, { floor, ceiling, rate }) => RD.multiply(
