@@ -1,17 +1,12 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
+import ViewContribution from './components/ViewContribution';
 
 const App = ({ store }) =>
   <Provider store={store}>
-    <p
-      css={css`
-        font-size: 100px;
-      `}
-    >
-      Your app here
-    </p>
+    <ViewContribution />
   </Provider>;
 
 App.propTypes = {
